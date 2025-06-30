@@ -51,4 +51,4 @@ class ContactSearch extends Command
 }
 
 
-/// the rest of the comands can be done by envouking ContactService() just like in API controller
+/// the rest of the comands can be done by invouking ContactService() just like in API controller
