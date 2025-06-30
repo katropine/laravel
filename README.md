@@ -28,3 +28,8 @@ contact:search {--name=} {--phone=} {--email_domain=}
 ## Text Cases
 docker-compose exec app php artisan test --filter=ContactApiTest
 docker-compose exec app php artisan test --filter=ContactCliTest
+
+
+## Solution
+
+A Service (ContactService) class created that implements data layer interactions acording to required functionality. ContactService can be reused for API (HTTP) and CLI (Command) controllers. 
