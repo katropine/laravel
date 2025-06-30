@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: laravel-crm-app
+    container_name: laravel-app
+    restart: unless-stopped
+    working_dir: /var/www/html/src
+    volumes:
+      - ./src:/var/www/html/src
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_KEY=base64:SomeRandomStringHere==
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=laravel
+      - DB_USERNAME=laravel
+      - DB_PASSWORD=secret
+      - CACHE_DRIVER=redis
+      - QUEUE_CONNECTION=redis
+      - REDIS_HOST=redis
+    command: >
+      bash -c "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"
+
+  mysql:
+    image: mysql:8.0
+    container_name: laravel-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3310:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+  redis:
+    image: redis:alpine
+    container_name: laravel-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  composer:
+    image: composer:2
+    container_name: laravel-composer
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    entrypoint: ["composer"]
+
+  artisan:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel-artisan
+    working_dir: /var/www/html/src
+    volumes:
+      - ./src:/var/www/html/src
+    entrypoint: ["php", "artisan"]
+
+volumes:
+  dbdata:
