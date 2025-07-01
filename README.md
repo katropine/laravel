@@ -1,5 +1,5 @@
 
-
+docker compose required
 
 ## GET all data
 
@@ -19,14 +19,22 @@ http://localhost:8000/api/contacts/{id}
 
 http://localhost:8000/api/contacts/{id}
 
+can be found in src/app/Http/Controllers/ContactController.php
+
+routs definition: src/routs/api.php
+
 
 ## CLI
 
 contact:search {--name=} {--phone=} {--email_domain=}
 
+can be found in src/app/Console/Commands/ContactSearch.php
+
 
 ## Text Cases
+
 docker-compose exec app php artisan test --filter=ContactApiTest
+
 docker-compose exec app php artisan test --filter=ContactCliTest
 
 
