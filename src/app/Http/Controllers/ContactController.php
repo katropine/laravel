@@ -10,10 +10,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class ContactController extends Controller
 {
     
-    // pseudo code
-    // Rbac $access = new Rbac(); 
-    
-    
     /**
      * GET: http://localhost:8000/api/contacts/search
      * GET: http://localhost:8000/api/contacts/search?name=*
@@ -21,7 +17,6 @@ class ContactController extends Controller
      * GET: http://localhost:8000/api/contacts/search?email_domain=@example.com
      */
     public function search(Request $request) {
-        // $this->access->denyAccessUnlessGranted('search', ContactResource::class);
         
         $contactService = new \App\Services\ContactService();
 
@@ -53,7 +48,6 @@ class ContactController extends Controller
      * GET: http://localhost:8000/api/contacts/{id}
      */
     public function show(int $id) {
-        // $this->access->denyAccessUnlessGranted('show', ContactResource::class);
         
         if (!$id) {
             return response()->json(['message' => 'Contact not found'], 404);
@@ -73,7 +67,6 @@ class ContactController extends Controller
     }
 
     public function upsert(Request $request) {
-        // $this->access->denyAccessUnlessGranted('upsert', ContactResource::class);
         
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -106,8 +99,6 @@ class ContactController extends Controller
      * DELETE: http://localhost:8000/api/contacts/{id}
      */
     public function destroy(int $id): JsonResponse {
-        
-        // $this->access->denyAccessUnlessGranted('destroy', ContactResource::class);
         
         if (!$id) {
             return response()->json(['message' => 'Contact not found'], 404);
